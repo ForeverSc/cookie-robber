@@ -1,0 +1,15 @@
+{
+  "name" : "cookie robber",
+  "version" : "0.1",
+  "description" : "a developer tool to bind different domain's cookie",
+  "permissions": [ "cookies", "tabs", "http://*/*", "https://*/*" ],
+  "icons": { "16": "cookie.png", "48": "cookie.png", "128": "cookie.png" },
+  "browser_action": {
+    "default_icon": "cookie.png",
+    "default_popup": "html/popup.html"
+  },
+  "background": {
+    "scripts": ["js/background.js"]
+  },
+  "manifest_version": 2
+}
