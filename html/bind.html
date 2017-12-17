@@ -1,11 +1,31 @@
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Bind</title>
 </head>
 <body>
-  <input type="text" id="text">
-  <button id="search">search</button>
-  <textarea name="result" id="result" cols="30" rows="10"></textarea>
+  <table>
+    <thead>
+      <tr>
+        <th>目标域名</th>
+        <th>源域名</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <input type="text" id="robber">
+        </td>
+        <td>
+          <input type="text" id="hostage">
+        </td>
+        <td>
+          <button id="bind">绑定</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <script src="../js/bind.js"></script>
 </body>
 </html>

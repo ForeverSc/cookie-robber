@@ -1,10 +1,42 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+let robberURL = ''
+let hostageURL = ''
+
+chrome.runtime.onMessage.addListener(function (req) {
+  if (req.type === 'rob-hostage') {
+    robberURL = req.robber
+    hostageURL = req.hostage
+  }
+})
 
 chrome.cookies.onChanged.addListener(function(info) {
-  console.log("onChanged" + JSON.stringify(info));
-});
+  const cookie = info.cookie
+  if (cookie.domain === getDomain(hostageURL)) {
+    const name = cookie.name 
+    const value = cookie.value
+   
+    chrome.cookies.get({
+      url: robberURL,
+      name
+    }, function(targetCookie) {
+      if (!targetCookie || targetCookie.value !== value) {
+        chrome.cookies.set({
+          url: robberURL,
+          name,
+          value
+        })
+        focusOrCreateTab(robberURL)
+      }
+    })
+  }
+})
+
+function getDomain(url) {
+  const reg = /https?:\/\/([^\/]+)\/?/
+  const resArr = reg.exec(url)
+
+  return resArr && resArr[1] 
+}
+
 
 function focusOrCreateTab(url) {
   chrome.windows.getAll({"populate":true}, function(windows) {
@@ -13,7 +45,7 @@ function focusOrCreateTab(url) {
       var tabs = windows[i].tabs;
       for (var j in tabs) {
         var tab = tabs[j];
-        if (tab.url == url) {
+        if (getDomain(tab.url) === getDomain(url)) {
           existing_tab = tab;
           break;
         }
@@ -21,6 +53,7 @@ function focusOrCreateTab(url) {
     }
     if (existing_tab) {
       chrome.tabs.update(existing_tab.id, {"selected":true});
+      chrome.tabs.reload(existing_tab.id)
     } else {
       chrome.tabs.create({"url":url, "selected":true});
     }
