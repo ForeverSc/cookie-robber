@@ -1,5 +1,5 @@
-let robberURL = ''
-let hostageURL = ''
+let robberURL = localStorage.getItem('robber')
+let hostageURL = localStorage.getItem('hostage')
 
 chrome.runtime.onMessage.addListener(function (req) {
   if (req.type === 'rob-hostage') {
