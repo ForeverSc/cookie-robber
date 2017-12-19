@@ -1,5 +1,21 @@
-let robberURL = localStorage.getItem('robber')
-let hostageURL = localStorage.getItem('hostage')
+let robberURL = JSON.parse(localStorage.getItem('robber'))
+let hostageURL = JSON.parse(localStorage.getItem('hostage'))
+
+init()
+
+function init() {
+  chrome.cookies.getAll({
+    url: hostageURL
+  }, function (cookies) {
+    cookies && cookies.forEach(({ name, value }) => {
+      chrome.cookies.set({
+        url: robberURL,
+        name,
+        value
+      })
+    })
+  })
+}
 
 chrome.runtime.onMessage.addListener(function (req) {
   if (req.type === 'rob-hostage') {
