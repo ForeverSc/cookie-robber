@@ -4,6 +4,7 @@ let hostageURL = JSON.parse(localStorage.getItem('hostage'))
 init()
 
 function init() {
+  if (!robberURL || !hostageURL) return 
   chrome.cookies.getAll({
     url: hostageURL
   }, function (cookies) {

@@ -1,7 +1,7 @@
 {
   "name" : "cookie robber",
   "version" : "0.1",
-  "description" : "a developer tool to bind different domain's cookie",
+  "description" : "a developer's tool to bind different domain's cookie",
   "permissions": [ "cookies", "tabs", "http://*/*", "https://*/*" ],
   "icons": { "16": "cookie.png", "48": "cookie.png", "128": "cookie.png" },
   "browser_action": {
