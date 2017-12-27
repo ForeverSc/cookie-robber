@@ -48,7 +48,7 @@ chrome.cookies.onChanged.addListener(function(info) {
 })
 
 function getDomain(url) {
-  const reg = /https?:\/\/([^\/]+)\/?/
+  const reg = /https?:\/\/([^\/]+):?\d*\/?/
   const resArr = reg.exec(url)
 
   return resArr && resArr[1] 
@@ -76,4 +76,7 @@ function focusOrCreateTab(url) {
     }
   });
 }
-
+chrome.browserAction.onClicked.addListener(function(tab) {
+  var manager_url = chrome.extension.getURL("popup/index.html");
+  focusOrCreateTab(manager_url);
+});

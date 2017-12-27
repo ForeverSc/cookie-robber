@@ -1,5 +1,21 @@
 # cookie-robber
-1. 支持同步两个域下的cookie 
-2. 一个选择页面，支持配置多个绑定
-3. 支持存储配置信息
-4. 访问原页面时，能够判断tabs中是否含有localhost页面，对其进行刷新，或者新建一个localhost的tab页
+
+> a chrome extension to bind different domain's cookies
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
