@@ -77,6 +77,7 @@ function focusOrCreateTab(url) {
   });
 }
 chrome.browserAction.onClicked.addListener(function(tab) {
-  var manager_url = chrome.extension.getURL("popup/index.html");
+  var manager_url = chrome.extension.getURL("settings.html");
+  console.log(manager_url)
   focusOrCreateTab(manager_url);
 });

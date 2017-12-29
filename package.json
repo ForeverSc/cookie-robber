@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "a chrome extension to bind different domain's cookies",
   "scripts": {
-    "dev:popup": "parcel src/pages/popup/index.html"
+    "dev:set": "parcel src/settings/settings.html",
+    "dev:bg": "parcel build src/background/background.js --public-url ./ --no-minify"
   },
   "dependencies": {
     "vue": "^2.5.13"
