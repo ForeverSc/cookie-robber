@@ -1,15 +1,15 @@
-const webpack = require('webpack')
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+import webpack from 'webpack'
+import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 
-module.exports = {
+export default {
   entry: {
     background: './src/background/background.js',
     settings: './src/settings/main.js'
   },
   output: {
-    path: path.join(__dirname, '../dev'),
+    path: path.join(__dirname, '../dist'),
     filename: '[name].js'
   },
   module: {
