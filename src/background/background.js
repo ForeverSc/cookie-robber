@@ -1,83 +1,52 @@
-let robberURL = JSON.parse(localStorage.getItem('robber'))
-let hostageURL = JSON.parse(localStorage.getItem('hostage'))
+import storage from '../util/storage'
+import cookies from '../api/cookies'
+import runtime from '../api/runtime'
+import browserAction from '../api/browserAction'
+import { getDomain, focusOrCreateTab } from '../util/helper'
+
+let robberURL = storage.get('robber')
+let hostageURL = storage.get('hostage')
 
 init()
 
-function init() {
-  if (!robberURL || !hostageURL) return 
-  chrome.cookies.getAll({
-    url: hostageURL
-  }, function (cookies) {
-    cookies && cookies.forEach(({ name, value }) => {
-      chrome.cookies.set({
-        url: robberURL,
-        name,
-        value
-      })
+async function init() {
+  if (!robberURL || !hostageURL) return
+  const resCookies = await cookies.getAll({ url: hostageURL }) || []
+  
+  res.cookies.forEach(({ name, value })=> {
+    cookies.set({
+      url: robberURL,
+      name,
+      value
     })
   })
 }
 
-chrome.runtime.onMessage.addListener(function (req) {
+runtime.onMessage = function (req) {
   if (req.type === 'rob-hostage') {
     robberURL = req.robber
     hostageURL = req.hostage
   }
-})
+}
 
-chrome.cookies.onChanged.addListener(function(info) {
-  const cookie = info.cookie
-  if (cookie.domain === getDomain(hostageURL)) {
-    const name = cookie.name 
-    const value = cookie.value
-   
-    chrome.cookies.get({
+cookies.onChanged = async function(info = {}) {
+  const { domain, name, value } = info.cookie
+  if (domain === getDomain(hostageURL)) {
+    const targetCookie = await cookies.get({
       url: robberURL,
       name
-    }, function(targetCookie) {
-      if (!targetCookie || targetCookie.value !== value) {
-        chrome.cookies.set({
-          url: robberURL,
-          name,
-          value
-        })
-        focusOrCreateTab(robberURL)
-      }
     })
+
+    cookies.set({
+      url: robberURL,
+      name,
+      value
+    })
+    focusOrCreateTab(robberURL)
   }
-})
-
-function getDomain(url) {
-  const reg = /https?:\/\/([^\/]+):?\d*\/?/
-  const resArr = reg.exec(url)
-
-  return resArr && resArr[1] 
 }
 
-
-function focusOrCreateTab(url) {
-  chrome.windows.getAll({"populate":true}, function(windows) {
-    var existing_tab = null;
-    for (var i in windows) {
-      var tabs = windows[i].tabs;
-      for (var j in tabs) {
-        var tab = tabs[j];
-        if (getDomain(tab.url) === getDomain(url)) {
-          existing_tab = tab;
-          break;
-        }
-      }
-    }
-    if (existing_tab) {
-      chrome.tabs.update(existing_tab.id, {"selected":true});
-      chrome.tabs.reload(existing_tab.id)
-    } else {
-      chrome.tabs.create({"url":url, "selected":true});
-    }
-  });
+browserAction.onClicked = function(tab) {
+  const url = chrome.extension.getURL("settings.html");
+  focusOrCreateTab(url);
 }
-chrome.browserAction.onClicked.addListener(function(tab) {
-  var manager_url = chrome.extension.getURL("settings.html");
-  console.log(manager_url)
-  focusOrCreateTab(manager_url);
-});

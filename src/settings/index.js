@@ -1,11 +1,4 @@
-const storage = {
-  set(key, value) {
-    localStorage.setItem(key, JSON.stringify(value))
-  },
-  get(key) {
-    return JSON.parse(localStorage.getItem(key))
-  } 
-}
+import storage from '../util/storage'
 
 document.addEventListener('DOMContentLoaded', function DOMContentLoaded() {
   const bind = document.querySelector('#bind')
