@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "a chrome extension to bind different domain's cookies",
   "scripts": {
-    "dev": "webpack -w --hide-modules --config build/webpack.config.babel.js"
+    "dev": "webpack -w --hide-modules --config build/webpack.config.babel.js --devtool source-map",
+    "build": "rimraf dist/ && webpack --hide-modules --config build/webpack.config.babel.js --env.production"
   },
   "dependencies": {
+    "element-ui": "^2.0.10",
     "vue": "^2.5.13"
   },
   "devDependencies": {
@@ -16,8 +18,14 @@
     "babel-preset-stage-2": "^6.24.1",
     "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.28.7",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
     "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "style-loader": "^0.19.1",
+    "uglifyjs-webpack-plugin": "^1.1.5",
+    "url-loader": "^0.6.2",
     "vue-loader": "^13.6.1",
     "vue-template-compiler": "^2.5.13",
     "webpack": "^3.10.0",
