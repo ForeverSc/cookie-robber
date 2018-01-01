@@ -28,6 +28,7 @@ export default {
   plugins: [new HtmlWebpackPlugin({
     title: 'settings',
     filename: 'settings.html',
+    template: 'template/index.html',
     chunks: ['settings']
   }), new CopyWebpackPlugin([{
     from: 'build/logo.png'

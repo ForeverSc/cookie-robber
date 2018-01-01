@@ -865,11 +865,11 @@ var _runtime = __webpack_require__(81);
 
 var _runtime2 = _interopRequireDefault(_runtime);
 
-var _browserAction = __webpack_require__(91);
+var _browserAction = __webpack_require__(82);
 
 var _browserAction2 = _interopRequireDefault(_browserAction);
 
-var _helper = __webpack_require__(82);
+var _helper = __webpack_require__(83);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2781,6 +2781,22 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = {
+  set onClicked(fn) {
+    chrome.browserAction.onClicked.addListener(fn);
+  }
+};
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.focusOrCreateTab = undefined;
 
 var _regenerator = __webpack_require__(22);
@@ -2856,11 +2872,11 @@ var focusOrCreateTab = exports.focusOrCreateTab = function () {
 
 exports.getDomain = getDomain;
 
-var _windows = __webpack_require__(83);
+var _windows = __webpack_require__(84);
 
 var _windows2 = _interopRequireDefault(_windows);
 
-var _tabs = __webpack_require__(92);
+var _tabs = __webpack_require__(85);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -2874,7 +2890,7 @@ function getDomain(url) {
 }
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2901,30 +2917,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  set onClicked(fn) {
-    chrome.browserAction.onClicked.addListener(fn);
-  }
-};
-
-/***/ }),
-/* 92 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
