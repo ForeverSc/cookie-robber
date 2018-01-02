@@ -3,46 +3,61 @@ import cookies from '../api/cookies'
 import runtime from '../api/runtime'
 import browserAction from '../api/browserAction'
 import { getDomain, focusOrCreateTab } from '../util/helper'
+import Bindings from '../class/Bindings'
 
-let robberURL = storage.get('robber')
-let hostageURL = storage.get('hostage')
+const bindings = new Bindings()
 
 init()
 
 async function init() {
-  if (!robberURL || !hostageURL) return
-  const resCookies = await cookies.getAll({ url: hostageURL }) || []
+  if (bindings.isEmpty()) return
+
+  const all = bindings.get()
+  all.forEach((binding) => {
+    bindCookies(binding)
+  })
+}
+
+async function bindCookies({ local, online }) {
+  const resCookies = await cookies.getAll({ url: online }) || []
   
   res.cookies.forEach(({ name, value })=> {
     cookies.set({
-      url: robberURL,
+      url: local,
       name,
       value
     })
   })
 }
 
-runtime.onMessage = function (req) {
-  if (req.type === 'rob-hostage') {
-    robberURL = req.robber
-    hostageURL = req.hostage
+runtime.onMessage = function ({ type, binding }) {
+  if (type === 'update') {
+    bindings.update(binding)
   }
 }
 
 cookies.onChanged = async function(info = {}) {
   const { domain, name, value } = info.cookie
-  if (domain === getDomain(hostageURL)) {
+  const all = bindings.get()
+
+  all.forEach((binding) => {
+    cookieChange(binding)
+  })
+}
+
+async function cookieChange({ local, online }) {
+  if (domain === getDomain(online)) {
     const targetCookie = await cookies.get({
-      url: robberURL,
+      url: local,
       name
     })
 
     cookies.set({
-      url: robberURL,
+      url: local,
       name,
       value
     })
-    focusOrCreateTab(robberURL)
+    focusOrCreateTab(local)
   }
 }
 

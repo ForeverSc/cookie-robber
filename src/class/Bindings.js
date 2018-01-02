@@ -1,4 +1,4 @@
-import storage from '../../util/storage'
+import storage from '../util/storage'
 
 export default class {
   constructor() {
@@ -34,5 +34,8 @@ export default class {
   }
   searchIndex(id) {
     return this.all.findIndex(({ id: aimId }) => aimId === id)
+  }
+  isEmpty() {
+    return this.all.length > 0 ? false : true
   }
 }

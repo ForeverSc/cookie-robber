@@ -2,11 +2,16 @@
   <div class="table-wrapper">
     <el-table
       ref="table"
-      @selection-change="handleSelectionChange"
       :data="tableData">
       <el-table-column
-        type="selection"
+        label="状态"
         width="55">
+        <template slot-scope="scope">
+          <el-checkbox
+            v-model="scope.row.bind"
+            @change="handleChangeBindState(scope.row)">
+          </el-checkbox>
+        </template>
       </el-table-column>
       <el-table-column
         label="本地开发域名"
@@ -50,9 +55,10 @@
 
 <script>
   import storage from '../util/storage.js'
-  import Binding from './class/Binding.js'
-  import Bindings from './class/Bindings.js'
+  import Binding from '../class/Binding.js'
+  import Bindings from '../class/Bindings.js'
   import EditDialog from './components/edit-dialog.vue'
+  import runtime from '../api/runtime.js'
 
   export default {
     components: {
@@ -93,12 +99,20 @@
         } else {
           this.bindings.update(binding)
         }
+        if (binding.bind) { // 立刻绑定
+          this.sendMessage({
+            type: 'update',
+            binding
+          })
+        }
       },
-      handleSelectionChange() {
-
+      handleChangeBindState(binding) {
+        runtime.sendMessage({
+          type: 'update',
+          binding
+        })
       },
       handleClearAll() {
-        this.$refs.table.clearSelection()
       }
     }
   }
