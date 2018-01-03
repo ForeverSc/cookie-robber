@@ -12,10 +12,8 @@ export async function focusOrCreateTab(url) {
   const wins = await windows.getAll({ "populate": true }) || []
   let existTab
 
-  wins.forEach(index => {
-    const tabs = wins[index] || []
-    tabs.forEach(index => {
-      const tab = tabs[index]
+  wins.forEach(({ tabs = [] }) => {
+    tabs.forEach(tab => {
       if (getDomain(tab.url) === getDomain(url)) {
         existTab = tab
         return

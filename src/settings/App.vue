@@ -42,7 +42,6 @@
     </el-table>
     <div class="table-btns">
       <el-button class="add-btn" @click="handleAdd">新增绑定</el-button>
-      <el-button class="add-btn" @click="handleClearAll">清除所有绑定</el-button>
     </div>
     <edit-dialog
       :type="type"
@@ -112,8 +111,6 @@
           binding
         })
       },
-      handleClearAll() {
-      }
     }
   }
 </script>

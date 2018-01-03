@@ -1,17 +1,17 @@
 export default {
-  set(params) {
-    chrome.cookies.set(params)
+  set(details, cb) {
+    chrome.cookies.set(details, cb)
   },
-  get(params) {
+  get(details) {
     return new Promise((resolve, reject) => {
-      chrome.cookies.get(params, (cookies) => {
+      chrome.cookies.get(details, (cookies) => {
         resolve(cookies)
       })
     })
   },
-  getAll(params) {
-    return new Promise((reslove, reject) => {
-      chrome.cookies.getAll(params, (cookies) => {
+  getAll(details) {
+    return new Promise((resolve, reject) => {
+      chrome.cookies.getAll(details, (cookies) => {
         resolve(cookies)
       })
     })

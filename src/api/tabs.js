@@ -1,11 +1,11 @@
 export default {
-  update(params) {
-    chrome.tabs.update(params)
+  update(tabId, updateProperties, cb) {
+    chrome.tabs.update(tabId, updateProperties, cb)
   },
-  reload(params) {
-    chrome.tabs.reload(params)
+  reload(tabId, updateProperties, cb) {
+    chrome.tabs.reload(tabId, updateProperties, cb)
   },
-  create(params) {
-    chrome.tabs.create(params)
+  create(createProperties, cb) {
+    chrome.tabs.create(createProperties, cb)
   }
 }

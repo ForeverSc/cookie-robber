@@ -21,7 +21,7 @@ async function init() {
 async function bindCookies({ local, online }) {
   const resCookies = await cookies.getAll({ url: online }) || []
   
-  res.cookies.forEach(({ name, value })=> {
+  resCookies.forEach(({ name, value })=> {
     cookies.set({
       url: local,
       name,
@@ -36,17 +36,18 @@ runtime.onMessage = function ({ type, binding }) {
   }
 }
 
-cookies.onChanged = async function(info = {}) {
-  const { domain, name, value } = info.cookie
+cookies.onChanged = function({ cookie, cause }) {
+  if (cause !== 'explicit') return
+  const { domain, name, value } = cookie
   const all = bindings.get()
 
   all.forEach((binding) => {
-    cookieChange(binding)
+    cookieChange(domain, name, value, binding)
   })
 }
 
-async function cookieChange({ local, online }) {
-  if (domain === getDomain(online)) {
+async function cookieChange(domain, name, value, { local, online, bind}) {
+  if (bind && domain === getDomain(online)) {
     const targetCookie = await cookies.get({
       url: local,
       name
@@ -56,8 +57,9 @@ async function cookieChange({ local, online }) {
       url: local,
       name,
       value
+    }, (cookie) => {
+      focusOrCreateTab(local)
     })
-    focusOrCreateTab(local)
   }
 }
 
