@@ -2,7 +2,7 @@ import windows from '../api/windows'
 import tabs from '../api/tabs'
 
 export function getDomain(url) {
-  const reg = /https?:\/\/([^\/]+):?\d*\/?/
+  const reg = /chrome-extension|https?:\/\/([^\/]+):?\d*\/?/
   const resArr = reg.exec(url)
 
   return resArr && resArr[1] 

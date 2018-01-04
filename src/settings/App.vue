@@ -99,17 +99,14 @@
           this.bindings.update(binding)
         }
         if (binding.bind) { // 立刻绑定
-          this.sendMessage({
+          runtime.sendMessage({
             type: 'update',
             binding
           })
         }
       },
       handleChangeBindState(binding) {
-        runtime.sendMessage({
-          type: 'update',
-          binding
-        })
+        this.bindings.update(binding)
       },
     }
   }
