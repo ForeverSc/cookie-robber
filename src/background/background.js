@@ -1,56 +1,51 @@
-import storage from '../util/storage'
 import cookies from '../api/cookies'
 import runtime from '../api/runtime'
 import browserAction from '../api/browserAction'
-import { getDomain, focusOrCreateTab } from '../util/helper'
-
-function getBindings() {
-  return storage.get('bindings') || []
-}
+import { getDomain, focusOrCreateTab, getBindings } from '../util/helper'
 
 init()
 
-async function init() {
-  const all = getBindings() 
-
-  all.forEach((binding) => {
-    bindCookies(binding)
-  })
+function init () {
+  startListenBrowserAction()
+  syncAllBindings()
+  startWatchCookies()
+  startListenMsg()
 }
 
-async function bindCookies({ local, online }) {
-  const resCookies = await cookies.getAll({ url: online }) || []
-  
-  resCookies.forEach(({ name, value })=> {
-    cookies.set({
-      url: local,
-      name,
-      value
-    })
-  })
-}
-
-runtime.onMessage = function ({ type, binding }) {
-
-}
-
-cookies.onChanged = function({ cookie, cause }) {
-  if (cause !== 'explicit') return
-  const { domain, name, value } = cookie
+/**
+ * 同步所有绑定，将线上的cookie拷贝至开发环境
+ */
+function syncAllBindings () {
   const all = getBindings()
 
-  all.forEach((binding) => {
-    cookieChange(domain, name, value, binding)
-  })
+  if (!all) return
+
+  all.forEach(robCookies)
 }
 
-async function cookieChange(domain, name, value, { local, online, bind}) {
-  if (bind && domain === getDomain(online)) {
-    const targetCookie = await cookies.get({
-      url: local,
-      name
-    })
+/**
+ * 开始监听Cookies的变化
+ */
+function startWatchCookies () {
+  cookies.onChanged = function ({ cookie, cause }) {
+    if (cause !== 'explicit') return
 
+    const all = getBindings()
+
+    if (!all) return
+
+    all.forEach((binding) => {
+      syncCookieChange(cookie, binding)
+    })
+  }
+}
+/**
+ * 同步Cookie的变化，更新本地开发域的cookie
+ * @param {Object} cookie 变化的cookie
+ * @param {Binding} binding 绑定对象
+ */
+async function syncCookieChange ({ domain, name, value }, { local, online, bind }) {
+  if (bind && domain === getDomain(online)) {
     cookies.set({
       url: local,
       name,
@@ -61,7 +56,44 @@ async function cookieChange(domain, name, value, { local, online, bind}) {
   }
 }
 
-browserAction.onClicked = function(tab) {
-  const url = chrome.extension.getURL("settings.html");
-  focusOrCreateTab(url);
+/**
+ * 开始监听msg
+ */
+function startListenMsg () {
+  runtime.onMessage = async function ({ type, binding }) {
+    if (type === 'update') {
+      robCookies(binding)
+    }
+  }
+}
+
+/**
+ * 将线上环境的cookie复制到开发环境中
+ * @param {Binding} 绑定对象
+ */
+async function robCookies ({ local, online, bind }) {
+  if (!bind) return
+
+  const onlineCookies = await cookies.getAll({ url: online })
+
+  if (!onlineCookies) return
+
+  onlineCookies.forEach(({ name, value }) => {
+    cookies.set({
+      url: local,
+      name,
+      value
+    })
+  })
+}
+
+/**
+ * 开始监听浏览器事件
+ */
+function startListenBrowserAction () {
+  browserAction.onClicked = function (tab) {
+    const url = chrome.extension.getURL('settings.html')
+
+    focusOrCreateTab(url)
+  }
 }

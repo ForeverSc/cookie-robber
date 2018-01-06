@@ -53,9 +53,8 @@
 </template>
 
 <script>
-  import storage from '../util/storage.js'
-  import Binding from '../class/Binding.js'
-  import Bindings from '../class/Bindings.js'
+  import Binding from './class/Binding.js'
+  import Bindings from './class/Bindings.js'
   import EditDialog from './components/edit-dialog.vue'
   import runtime from '../api/runtime.js'
 
@@ -63,7 +62,7 @@
     components: {
       EditDialog
     },
-    data() {
+    data () {
       return {
         type: 'add',
         showDialog: false,
@@ -72,25 +71,25 @@
       }
     },
     computed: {
-      tableData() {
+      tableData () {
         return this.bindings.get()
       }
     },
     methods: {
-      handleEdit({ id }) {
+      handleEdit ({ id }) {
         this.type = 'edit'
         this.showDialog = true
         this.binding = this.bindings.search(id)
       },
-      handleDelete({ id }) {
+      handleDelete ({ id }) {
         this.bindings.delete(id)
       },
-      handleAdd() {
+      handleAdd () {
         this.type = 'add'
         this.showDialog = true
         this.binding = new Binding()
       },
-      handleEnsureClick(type, binding) {
+      handleEnsureClick (type, binding) {
         if (this.type === 'add') {
           const newBinding = new Binding(binding)
 
@@ -105,9 +104,9 @@
           })
         }
       },
-      handleChangeBindState(binding) {
+      handleChangeBindState (binding) {
         this.bindings.update(binding)
-      },
+      }
     }
   }
 </script>

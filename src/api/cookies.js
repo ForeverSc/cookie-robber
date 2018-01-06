@@ -1,22 +1,25 @@
 export default {
-  set(details, cb) {
+  set (details, cb) {
     chrome.cookies.set(details, cb)
   },
-  get(details) {
+  get (details) {
     return new Promise((resolve, reject) => {
       chrome.cookies.get(details, (cookies) => {
         resolve(cookies)
       })
     })
   },
-  getAll(details) {
+  getAll (details) {
     return new Promise((resolve, reject) => {
       chrome.cookies.getAll(details, (cookies) => {
         resolve(cookies)
       })
     })
   },
-  set onChanged(fn) {
+  set onChanged (fn) {
     chrome.cookies.onChanged.addListener(fn)
+  },
+  get onChanged () {
+    return chrome.cookies.onChanged
   }
 }

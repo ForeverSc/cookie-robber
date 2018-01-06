@@ -1,8 +1,11 @@
 export default {
-  set onMessage(fn) {
+  set onMessage (fn) {
     chrome.runtime.onMessage.addListener(fn)
   },
-  sendMessage(params) {
+  get onMessage () {
+    return chrome.runtime.onMessage
+  },
+  sendMessage (params) {
     chrome.runtime.sendMessage(params)
   }
 }

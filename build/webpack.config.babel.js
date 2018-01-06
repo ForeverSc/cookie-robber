@@ -1,11 +1,10 @@
-import webpack from 'webpack'
 import path from 'path'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import UglifyjsPlugin from 'uglifyjs-webpack-plugin'
 
-export default function(env = {}, arg) {
+export default function (env = {}, arg) {
   const isProduction = env.production
   const plugins = [
     new ExtractTextPlugin({
@@ -40,10 +39,10 @@ export default function(env = {}, arg) {
     module: {
       rules: [{
         test: /\.vue$/,
-          loader: 'vue-loader',
-          options: {
-            preserveWhitespace: false,
-          }
+        loader: 'vue-loader',
+        options: {
+          preserveWhitespace: false
+        }
       }, {
         test: /\.css$/,
         loaders: ExtractTextPlugin.extract({
@@ -54,9 +53,9 @@ export default function(env = {}, arg) {
         loader: 'babel-loader',
         exclude: /node_modules|vue\/dist|vuex\/dist/
       }, {
-          test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-          loader: 'url-loader'
-        }]
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader'
+      }]
     },
     plugins
   }
