@@ -76,10 +76,10 @@
       }
     },
     methods: {
-      handleEdit ({ id }) {
+      handleEdit (binding) {
         this.type = 'edit'
         this.showDialog = true
-        this.binding = this.bindings.search(id)
+        this.binding = Object.assign({}, binding)
       },
       handleDelete ({ id }) {
         this.bindings.delete(id)

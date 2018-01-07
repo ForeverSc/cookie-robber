@@ -42,17 +42,17 @@
         default: {}
       }
     },
-    data() {
+    data () {
       return {
         form: {
           local: '',
           online: '',
           tip: '',
           bind: true
-        }, 
+        },
         rules: {
           local: [
-            { 
+            {
               required: true,
               message: '请输入本地开发域名',
               trigger: 'change'
@@ -62,32 +62,33 @@
             {
               required: true,
               message: '请输入线上开发域名',
-              trigger: 'change' 
+              trigger: 'change'
             }
-          ],
+          ]
         }
       }
     },
     watch: {
-      binding(val) {
-        this.form = Object.assign({}, val)
+      binding (val) {
+        console.log(val)
+        this.form = val
       }
     },
     computed: {
-      title() {
+      title () {
         return this.type === 'add' ? '新增绑定' : '编辑绑定'
       }
     },
     methods: {
-      handleRawClose() {
+      handleRawClose () {
         this.$emit('update:visible', false)
         this.resetFormData()
       },
-      handleCancel() {
+      handleCancel () {
         this.$emit('update:visible', false)
         this.resetFormData()
       },
-      handleEnsure() {
+      handleEnsure () {
         this.$refs.form.validate(valid => {
           if (!valid) return
           this.$emit('update:visible', false)
@@ -95,7 +96,7 @@
           this.resetFormData()
         })
       },
-      resetFormData() {
+      resetFormData () {
         this.$refs.form.resetFields()
       }
     }
