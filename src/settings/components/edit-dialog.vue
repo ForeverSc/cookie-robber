@@ -70,7 +70,6 @@
     },
     watch: {
       binding (val) {
-        console.log(val)
         this.form = val
       }
     },
