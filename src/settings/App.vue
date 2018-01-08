@@ -1,5 +1,5 @@
 <template>
-  <div class="table-wrapper">
+  <div class="table-wrapper">
     <el-table
       ref="table"
       :data="tableData">
