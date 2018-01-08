@@ -4,7 +4,8 @@
   "description": "a chrome extension to bind different domain's cookies",
   "scripts": {
     "dev": "webpack -w --hide-modules --config build/webpack.config.babel.js --devtool source-map",
-    "build": "rimraf dist/ && webpack --hide-modules --config build/webpack.config.babel.js --env.production"
+    "build": "rimraf dist/ && webpack --hide-modules --config build/webpack.config.babel.js --env.production",
+    "release": "npm run build && rm -rf release && mkdir release && zip -r release/release.zip dist"
   },
   "dependencies": {
     "element-ui": "^2.0.10",
