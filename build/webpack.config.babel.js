@@ -3,6 +3,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import UglifyjsPlugin from 'uglifyjs-webpack-plugin'
 import { genHtmlWebpackPlugins } from './plugins'
+import entry from './entry'
 
 export default function (env = {}, arg) {
   const isProduction = env.production
@@ -12,9 +13,7 @@ export default function (env = {}, arg) {
     }),
     ...genHtmlWebpackPlugins(),
     new CopyWebpackPlugin([{
-      from: 'config/logo.png'
-    }, {
-      from: 'config/manifest.json'
+      from: 'config'
     }])
   ]
 
@@ -23,10 +22,7 @@ export default function (env = {}, arg) {
   }
 
   return {
-    entry: {
-      background: './src/background/background.js',
-      settings: './src/settings/main.js'
-    },
+    entry,
     output: {
       path: path.join(__dirname, '../dist'),
       filename: '[name].js'

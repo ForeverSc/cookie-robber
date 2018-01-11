@@ -1,4 +1,4 @@
-import entry from '../config/entry'
+import entry from './entry'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 export function genHtmlWebpackPlugins () {
