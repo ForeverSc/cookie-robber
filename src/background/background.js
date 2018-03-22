@@ -45,7 +45,7 @@ function startWatchCookies () {
  * @param {Binding} binding 绑定对象
  */
 async function syncCookieChange ({ domain, name, value }, { local, online, bind }) {
-  if (bind && domain === getDomain(online)) {
+  if (bind && getDomain(online).includes(domain)) {
     cookies.set({
       url: local,
       name,
